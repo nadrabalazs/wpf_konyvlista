@@ -75,22 +75,22 @@ public partial class MainWindow : Window
             Filter = "Szövegfájl (*.txt)|*.txt",
             FileName = "konyvek.txt"
         };
-        if (sfd.ShowDialog() == true)
+        if (sfd.ShowDialog() == false)
+            return;
+        try
         {
-            try
+            StreamWriter sw = new StreamWriter(sfd.FileName, append: false, Encoding.UTF8);
+            for (int i = 0; i < lstKonyvek.Items.Count; i++)
             {
-                List<string> sorok = new List<string>();
-                foreach (var item in lstKonyvek.Items)
-                {
-                    sorok.Add(item.ToString());
-                }
-                File.WriteAllLines(sfd.FileName, sorok, Encoding.UTF8);
+                sw.WriteLine(lstKonyvek.Items[i]);
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Hiba történt: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
-            }
+            sw.Close();
         }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Hiba történt: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+
     }
 
     private void Betoltes_Click(object sender, RoutedEventArgs e)
@@ -101,26 +101,28 @@ public partial class MainWindow : Window
         {
             Filter = "Szövegfájl (*.txt)|*.txt"
         };
-        if (ofd.ShowDialog() == true)
+        if (ofd.ShowDialog() == false)
+            return;
+        string[] sorok;
+        try
         {
-            try
+            sorok = File.ReadAllLines(ofd.FileName, Encoding.UTF8);
+            
+        }
+        catch (Exception ex)
+        {
+            MessageBox.Show($"Hiba történt: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+            throw;
+        }
+        lstKonyvek.Items.Clear();
+        foreach (string sor in sorok)
+        {
+            if (sor != "")
             {
-                string[] sorok = File.ReadAllLines(ofd.FileName, Encoding.UTF8);
-                lstKonyvek.Items.Clear();
-                foreach (string sor in sorok)
-                {
-                    if (!string.IsNullOrWhiteSpace(sor))
-                    {
-                        lstKonyvek.Items.Add(sor);
-                    }
-                }
-                FrissitDarabszam();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Hiba történt: {ex.Message}", "Hiba", MessageBoxButton.OK, MessageBoxImage.Error);
+                lstKonyvek.Items.Add(sor);
             }
         }
+        FrissitDarabszam();
     }
 
 }
