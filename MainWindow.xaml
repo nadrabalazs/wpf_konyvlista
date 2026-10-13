@@ -1,0 +1,90 @@
+﻿<Window x:Class="Konyvlista.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Background="#F3F6FA" FontFamily="Segoe UI" FontSize="14"
+        Title="Könyvlista" Width="900" Height="560">
+    <!-- X1: Az ablak címét, szélességét és magasságát állítsa be a leírás szerint. -->
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="280" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.ColumnSpan="2" Margin="0,0,0,16">
+            <TextBlock Text="Saját könyvlistám" FontSize="26" FontWeight="Bold"
+                       Foreground="#19324D" />
+            <TextBlock Text="Könyvek felvétele, törlése és mentése" Foreground="#52657A" />
+        </StackPanel>
+
+        <Border Grid.Row="1" Grid.Column="0" Background="White" CornerRadius="8"
+                BorderBrush="#D4DDE7" BorderThickness="1" Padding="16">
+            <Grid>
+                <!-- X2: Hét sor: az első hat a tartalomhoz igazodjon,
+                     az utolsó töltse ki a maradék helyet. -->
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Text="Új könyv" FontSize="18"
+                           FontWeight="Bold" Margin="0,0,0,12" />
+                <!-- X3: Ide kerül a két feliratos beviteli mező (1. és 2. sor). -->
+                <StackPanel Grid.Row="1" Margin="0 0 0 8">
+                    <TextBlock Text="Könyv címe:" Margin="0 0 0 4"/>
+                    <TextBox x:Name="txtCim" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Margin="0 0 0 8">
+                    <TextBlock Text="Szerző:" Margin="0 0 0 4"/>
+                    <TextBox x:Name="txtSzerzo" Height="30" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"/>
+                </StackPanel>
+                <!-- X4: Ide kerül az Elolvasva jelölőnégyzet (3. sor). -->
+                <CheckBox x:Name="chkElolvasva" Grid.Row="3" Content="Elolvasva" IsChecked="False" Margin="0 4 0 12"/>
+                <!-- X5: Ide kerül a Felvétel gomb (4. sor). -->
+                <Button Grid.Row="4" Content="Felvétel" Height="34" Background="#DDEBFA" Click="Felvetel_Click"/>
+                <TextBlock Grid.Row="5" Text="A cím és a szerző megadása kötelező."
+                           TextWrapping="Wrap" Foreground="#52657A" Margin="0,16,0,0" />
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1" Grid.Column="1" Margin="20,0,0,0" Background="White"
+                CornerRadius="8" BorderBrush="#D4DDE7" BorderThickness="1" Padding="16">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Text="Nyilvántartott könyvek" FontSize="18"
+                           FontWeight="Bold" Margin="0,0,0,12" />
+                <!-- X6: Egészítse ki a listát: sor, belső margó, keretszín. -->
+                <ListBox x:Name="lstKonyvek" Grid.Row="1" Padding="6" BorderBrush="#D4DDE7"/>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="2" Grid.ColumnSpan="2" Margin="0,16,0,0" Padding="12"
+                Background="White" BorderBrush="#D4DDE7" BorderThickness="1" CornerRadius="8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <!-- X8: Egészítse ki az állapotjelző szöveget. -->
+                <TextBlock x:Name="txtAllapot" VerticalAlignment="Center" Foreground="#52657A" Text="Könyvek száma: 0"/>
+                <!-- X7: Ide kerül a három alsó gomb, az 1., 2. és 3. oszlopba. -->
+                <Button Grid.Column="1" Content="Kijelölt törlése" Width="130" Height="32" Margin="0,0,10,0" Click="Torles_Click" />
+                <Button Grid.Column="2" Content="Mentés..." Width="90" Height="32" Margin="0,0,10,0" Click="Mentes_Click" />
+                <Button Grid.Column="3" Content="Betöltés..." Width="90" Height="32" Click="Betoltes_Click" />
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
